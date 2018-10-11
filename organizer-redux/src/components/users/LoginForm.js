@@ -8,18 +8,18 @@ const LoginForm = (props) => (
         <Input
             name='username'
             placeholder='Username'
-            value={props.user.username}
+            value={props.username}
             onChange={props.onChange} />
         <Input
             type='password'
             name='password'
             placeholder='Password'
-            value={props.user.password}
+            value={props.password}
             onChange={props.onChange} />
         <br />
         <Submit
             value='Login'
-            onClick={props.onSave} />
+            onClick={props.onSubmit} />
     </form>
 );
 
