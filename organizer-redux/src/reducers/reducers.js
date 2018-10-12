@@ -1,5 +1,5 @@
-import { loginReducer } from './authReducer';
+import { authReducer } from './authReducer';
 
 export default {
-    login: loginReducer
+    auth: authReducer
 };

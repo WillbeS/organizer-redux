@@ -5,7 +5,7 @@ import PrivateRoute from './PrivateRoute';
 import HomePage from '../../HomePage';
 import AboutPage from '../../AboutPage';
 import LoginPage from '../../users/LoginPage';
-// import LogoutPage from '../../users/LogoutPage';
+import LogoutPage from '../../users/LogoutPage';
 import RegisterPage from '../../users/RegisterPage';
 // import AddTodoPage from '../../todos/AddTodoPage';
 
@@ -15,8 +15,8 @@ const Routes = () => (
         <Route path='/about' component={AboutPage} />
         <Route path='/users/login' component={LoginPage} />
         <Route path='/users/register' component={RegisterPage} />
-        {/* <PrivateRoute path='/users/logout' component={LogoutPage} />
-        <PrivateRoute path='/todos/add' component={AddTodoPage} /> */}
+        <PrivateRoute path='/users/logout' component={LogoutPage} />
+        {/* <PrivateRoute path='/todos/add' component={AddTodoPage} /> */}
 
     </Switch>
 );

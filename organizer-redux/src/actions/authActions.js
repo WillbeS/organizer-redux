@@ -3,9 +3,15 @@ import remoteKinvey from '../api/remoteKinvey';
 import Auth from '../components/users/Auth';
 import actionTypes from '../constants/actionTypes';
 
-function loginSuccess(token) {
+function loginSuccess() {
     return {
-        type: actionTypes.LOGGIN_SUCCES,
+        type: actionTypes.LOGGIN_SUCCESS,
+    };
+}
+
+function logoutSuccess() {
+    return {
+        type: actionTypes.LOGOUT_SUCCESS,
     };
 }
 
@@ -16,7 +22,8 @@ function authError(msg) {
     }
 }
 
-function loginAction(username, password) {
+
+function login(username, password) {
     return (dispatch) => {
         return UserService.login(username, password)
             .then(data => {
@@ -29,4 +36,31 @@ function loginAction(username, password) {
     };
 }
 
-export { loginAction }
+function register(username, password) {
+    return (dispatch) => {
+        return UserService.register(username, password)
+            .then(data => {
+                Auth.authenticateUser(data._kmd.authtoken);
+                dispatch(loginSuccess());
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(authError(msg))
+            });
+    };
+}
+
+
+
+function logout() {
+    return (dispatch) => {
+        return UserService.logout()
+            .then(data => {
+                Auth.deauthenticateUser();
+                dispatch(logoutSuccess());
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(authError(msg))
+            });
+    };
+}
+export { login, register, logout }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import RegisterForm from './RegisterForm';
-//import toastr from 'toastr';
+import toastr from 'toastr';
+import {register} from '../../actions/authActions';
+import {connect} from 'react-redux';
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -23,7 +25,50 @@ class RegisterPage extends Component {
 
     onSubmitHandler(e) {
         e.preventDefault();
+
+        if (!this.isValidForm) {
+            return;
+        }
+
+        this.props.register(this.state.username, this.state.password);
     }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.error) {
+            toastr.error(newProps.error);
+        }
+
+        if (newProps.loggedIn) {
+            toastr.success('User registration successfull!');
+            this.props.history.push('/');
+        }
+    }
+
+    isValidForm() {
+        const username = this.state.username;
+        const password = this.state.password;
+        const repeat = this.state.repeat;
+
+        let formIsValid = true;
+        let error = '';
+
+        if (username === '' || password === '') {
+            error = 'All input fields are required!';
+            formIsValid = false;
+        }
+
+        if (password !== repeat) {
+            error = 'Passwords missmatch!';
+            formIsValid = false;
+        }
+
+        if (error) {
+            this.setState({ error });
+        }
+
+        return formIsValid;
+    }
+
 
     render() {
         return (
@@ -37,11 +82,24 @@ class RegisterPage extends Component {
                         repeat={this.state.repeat}
                         error={this.state.error}
                         onChange={this.onInputChangeHandler}
-                        onSave={this.onSubmitHandler} />
+                        onSubmit={this.onSubmitHandler} />
                 </div>
             </div>
         );
     }
 }
 
-export default RegisterPage;
+function mapStateToProps(state) {
+    return {
+        loggedIn: state.auth.loggedIn,
+        error: state.auth.error
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        register: (username, password) => dispatch(register(username, password))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

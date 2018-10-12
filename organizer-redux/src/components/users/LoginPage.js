@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
-import { loginAction } from '../../actions/authActions';
+import { login } from '../../actions/authActions';
 import toastr from 'toastr';
 
 class LoginPage extends Component {
@@ -37,7 +37,7 @@ class LoginPage extends Component {
             toastr.error(newProps.error);
         }
 
-        if (newProps.loginSuccess) {
+        if (newProps.loggedIn) {
             toastr.success('User login successfull!');
             this.props.history.push('/');
         }
@@ -82,14 +82,14 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
     return {
-        loginSuccess: state.login.success,
-        error: state.login.error
+        loggedIn: state.auth.loggedIn,
+        error: state.auth.error
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        login: (username, password) => dispatch(loginAction(username, password))
+        login: (username, password) => dispatch(login(username, password))
     };
 }
 

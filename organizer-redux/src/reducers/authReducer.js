@@ -1,11 +1,14 @@
 import actionTypes from '../constants/actionTypes';
+//import Auth from '../components/users/Auth';
 
-export function loginReducer(state = {}, action) {
+export function authReducer(state = {}, action) {
     switch (action.type) {
-        case actionTypes.LOGGIN_SUCCES:
-            return Object.assign({}, state, { success: true, error: false });
+        case actionTypes.LOGGIN_SUCCESS:
+            return Object.assign({}, state, { loggedIn: true, error: false });
+        case actionTypes.LOGOUT_SUCCESS:
+            return Object.assign({}, state, { loggedIn: false, error: false });
         case actionTypes.AUTH_ERROR:
-            return Object.assign({}, state, { success: false, error: action.message });
+            return Object.assign({}, state, { loggedIn: false, error: action.message });
         default:
             return state;
     }
