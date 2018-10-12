@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import { loginAction } from '../../actions/authActions';
-//import toastr from 'toastr';
+import toastr from 'toastr';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -24,14 +24,42 @@ class LoginPage extends Component {
 
     onSubmitHandler(e) {
         e.preventDefault();
+
+        if(!this.isValidForm()) {
+            return;
+        }
+
         this.props.login(this.state.username, this.state.password);
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.loginSuccess) {
-            console.log(newProps.token);
-            //this.props.history.push('/');
+        if (newProps.error) {
+            toastr.error(newProps.error);
         }
+
+        if (newProps.loginSuccess) {
+            toastr.success('User login successfull!');
+            this.props.history.push('/');
+        }
+    }
+
+    isValidForm() {
+        const username = this.state.username;
+        const password = this.state.password;
+
+        let formIsValid = true;
+        let error = '';
+
+        if (username === '' || password === '') {
+            error = 'All input fields are required!';
+            formIsValid = false;
+        }
+
+        if (error) {
+            this.setState({ error });
+        }
+
+        return formIsValid;
     }
 
     render() {
@@ -55,7 +83,7 @@ class LoginPage extends Component {
 function mapStateToProps(state) {
     return {
         loginSuccess: state.login.success,
-        token: state.login.token
+        error: state.login.error
     };
 }
 

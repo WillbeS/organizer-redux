@@ -1,17 +1,18 @@
 import UserService from '../services/UserService';
+import remoteKinvey from '../api/remoteKinvey';
+import Auth from '../components/users/Auth';
+import actionTypes from '../constants/actionTypes';
 
-function loginSuccess(data) {
+function loginSuccess(token) {
     return {
-        type: 'LOGIN_SUCCESS',
-        data
+        type: actionTypes.LOGGIN_SUCCES,
     };
 }
 
-//TODO - maybe this is not the best way and place?
-function handleError(err) {
+function authError(msg) {
     return {
-        type: 'ERROR',
-        err
+        type: actionTypes.AUTH_ERROR,
+        message: msg
     }
 }
 
@@ -19,9 +20,11 @@ function loginAction(username, password) {
     return (dispatch) => {
         return UserService.login(username, password)
             .then(data => {
-                dispatch(loginSuccess(data));
+                Auth.authenticateUser(data._kmd.authtoken);
+                dispatch(loginSuccess());
             }).catch(err => {
-                dispatch(handleError(err))
+                const msg = remoteKinvey.handleError(err);
+                dispatch(authError(msg))
             });
     };
 }

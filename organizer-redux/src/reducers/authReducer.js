@@ -1,12 +1,11 @@
-export function loginReducer(state = { success: false }, action) {
+import actionTypes from '../constants/actionTypes';
+
+export function loginReducer(state = {}, action) {
     switch (action.type) {
-        case 'LOGIN_SUCCESS':
-            //todo - update session!!!
-            //console.log(action.data._kmd.authtoken);
-            let newState = Object.assign({}, state, { success: true });
-            newState.token = action.data._kmd.authtoken;
-            console.log(newState);
-            return newState;
+        case actionTypes.LOGGIN_SUCCES:
+            return Object.assign({}, state, { success: true, error: false });
+        case actionTypes.AUTH_ERROR:
+            return Object.assign({}, state, { success: false, error: action.message });
         default:
             return state;
     }

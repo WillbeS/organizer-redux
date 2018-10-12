@@ -1,17 +1,4 @@
 class Auth {
-    static saveUser(user) {
-        window.localStorage.setItem('user', JSON.stringify(user));
-    }
-
-    static getUser() {
-        const userJSON = window.localStorage.getItem('user');
-
-        if (userJSON) {
-            return JSON.parse(userJSON);
-        }
-        return {};
-    }
-
     static removeUser() {
         window.localStorage.removeItem('user');
     }

@@ -32,7 +32,7 @@ const remoteKinvey = (() => {
 
     function get(module, endpoint, auth) {
         //console.log(makeRequest('GET', module, endpoint, auth));
-        return $.ajax(makeRequest('GET', module, endpoint, auth)).catch(handleError);
+        return $.ajax(makeRequest('GET', module, endpoint, auth));
     }
 
     function post(module, endpoint, auth, data) {
@@ -47,23 +47,23 @@ const remoteKinvey = (() => {
     function update(module, endpoint, auth, data) {
         let obj = makeRequest('PUT', module, endpoint, auth);
         obj.data = JSON.stringify(data);
-        return $.ajax(obj).catch(handleError);
+        return $.ajax(obj);
     }
 
     function remove(module, endpoint, auth) {
-        return $.ajax(makeRequest('DELETE', module, endpoint, auth)).catch(handleError);
+        return $.ajax(makeRequest('DELETE', module, endpoint, auth));
     }
 
     function handleError(reason) {
-        let errorData = { error: reason.responseJSON.description }
-        return  new Promise((resolve, rejcet) => resolve(errorData));
+        return reason.responseJSON.description;
     }
 
     return {
         get,
         post,
         update,
-        remove
+        remove,
+        handleError
     };
 })();
 

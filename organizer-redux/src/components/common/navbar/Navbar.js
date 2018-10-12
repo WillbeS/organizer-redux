@@ -3,16 +3,8 @@ import Menu from './Menu';
 import NavLinks from '../../../constants/NavLinks';
 
 class Navbar extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loggedIn: false
-        }
-    }
-
     render() {
-        let menuItems = this.state.loggedIn ? NavLinks.MAIN_PRIVATE : NavLinks.MAIN_PUBLIC;
+        let menuItems = this.props.loggedIn ? NavLinks.MAIN_PRIVATE : NavLinks.MAIN_PUBLIC;
 
         return (
             <nav className="navbar navbar-expand-sm bg-dark navbar-dark">

@@ -4,7 +4,7 @@ import Navbar from './navbar/Navbar';
 const Header = (props) => {
     return (
         <header>
-            <Navbar />
+            <Navbar loggedIn={props.loggedIn} />
         </header>
     )
 }
