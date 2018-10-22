@@ -6,36 +6,20 @@ import { withRouter } from 'react-router-dom';
 import Routes from './components/common/routes/Routes';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
-import Auth from './components/users/Auth';
-
-
+import { requestAuthentication } from './actions/authActions';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loggedIn: false
-    };
-  }
-
   componentWillMount() {
-    if (Auth.isUserAuthenticated()) {
-      this.setState({ loggedIn: true });
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({ loggedIn: newProps.loggedIn });
+    this.props.isAuthenticated();
   }
 
   render() {
     return (
       <div>
         <Header 
-          loggedIn={this.state.loggedIn} />
+          loggedIn={this.props.loggedIn} />
         <div className="container margin-top-30">
-          <Routes />
+          <Routes onEnter={this.onRouterEnter} someProp='Some prop!' />
         </div>
         <Footer />
       </div>
@@ -51,6 +35,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    isAuthenticated: () => dispatch(requestAuthentication()),
   };
 }
 

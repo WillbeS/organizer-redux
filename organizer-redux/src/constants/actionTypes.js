@@ -2,6 +2,9 @@ const actionTypes = {
     LOGGIN_SUCCESS: 'LOGGIN_SUCCESS',
     LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
     AUTH_ERROR: 'AUTH_ERROR',
+    AUTH_REQUEST: 'AUTH_REQUEST',
+    REMOTE_ERROR: 'REMOTE_ERROR',
+    LIST_CREATED: 'LIST_CREATED',
 }
 
 export default actionTypes;

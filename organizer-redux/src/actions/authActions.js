@@ -22,6 +22,11 @@ function authError(msg) {
     }
 }
 
+function requestAuthentication() {
+    return {
+        type: actionTypes.AUTH_REQUEST
+    }
+}
 
 function login(username, password) {
     return (dispatch) => {
@@ -63,4 +68,4 @@ function logout() {
             });
     };
 }
-export { login, register, logout }
+export { login, register, logout, requestAuthentication }

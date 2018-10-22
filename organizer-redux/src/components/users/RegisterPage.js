@@ -26,11 +26,11 @@ class RegisterPage extends Component {
     onSubmitHandler(e) {
         e.preventDefault();
 
-        if (!this.isValidForm) {
+        if (!this.isValidForm()) {
             return;
         }
 
-        this.props.register(this.state.username, this.state.password);
+        this.props.register(this.state.username.toLowerCase(), this.state.password);
     }
 
     componentWillReceiveProps(newProps) {

@@ -1,5 +1,7 @@
 import { authReducer } from './authReducer';
+import { listReducer } from './listReducer';
 
 export default {
-    auth: authReducer
+    auth: authReducer,
+    list: listReducer
 };
