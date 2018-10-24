@@ -5,6 +5,7 @@ const actionTypes = {
     AUTH_REQUEST: 'AUTH_REQUEST',
     REMOTE_ERROR: 'REMOTE_ERROR',
     LIST_CREATED: 'LIST_CREATED',
+    FETCH_LISTS_SUCCESS: 'FETCH_LISTS_SUCCESS'
 }
 
 export default actionTypes;
