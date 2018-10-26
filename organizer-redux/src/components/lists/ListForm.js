@@ -13,7 +13,7 @@ const ListForm = (props) => {
                 onChange={props.onChange} />
             <br />
             <Submit
-                value='Add'
+                value='Submit'
                 onClick={props.onSubmit} />
         </form>
     );

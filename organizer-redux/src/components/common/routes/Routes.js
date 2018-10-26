@@ -9,7 +9,8 @@ import LogoutPage from '../../users/LogoutPage';
 import RegisterPage from '../../users/RegisterPage';
 // import AddTodoPage from '../../todos/AddTodoPage';
 import ManageListsPage from '../../lists/ManageListsPage';
-import CreatePage from '../../lists/CreatePage';
+import CreateListPage from '../../lists/CreateListPage';
+import EditListPage from '../../lists/EditListPage';
 
 const Routes = (props) => (
     <Switch>
@@ -20,7 +21,8 @@ const Routes = (props) => (
         <PrivateRoute path='/users/logout' component={LogoutPage} />
         {/* <PrivateRoute path='/todos/add' component={AddTodoPage} /> */}
         <PrivateRoute path='/lists' component={ManageListsPage} />
-        <PrivateRoute path='/list/add' component={CreatePage} />
+        <PrivateRoute path='/list/add' component={CreateListPage} />
+        <PrivateRoute path='/list/edit/:id' component={EditListPage} />
     </Switch>
 );
 

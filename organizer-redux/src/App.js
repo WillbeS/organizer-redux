@@ -8,8 +8,9 @@ import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import { requestAuthentication } from './actions/authActions';
 
+
 class App extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.isAuthenticated();
   }
 
@@ -19,7 +20,7 @@ class App extends Component {
         <Header 
           loggedIn={this.props.loggedIn} />
         <div className="container margin-top-30">
-          <Routes onEnter={this.onRouterEnter} someProp='Some prop!' />
+          <Routes />
         </div>
         <Footer />
       </div>

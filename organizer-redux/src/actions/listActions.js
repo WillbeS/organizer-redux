@@ -5,7 +5,15 @@ import remoteKinvey from '../api/remoteKinvey';
 function createSuccess(data) {
     return {
         type: actionTypes.LIST_CREATED,
+        data
     };
+}
+
+function editSuccess(data) {
+    return {
+        type: actionTypes.LIST_UPDATED,
+        data
+    }
 }
 
 function fetchSuccess(data) {
@@ -26,7 +34,22 @@ function createList(data) {
     return (dispatch) => {
         return ListService.create(data)
             .then(data => {
-                dispatch(createSuccess());
+                dispatch(createSuccess(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+
+function editList(id, data) {
+    console.log('From within list actions - data: ');
+    console.log(data);
+    return (dispatch) => {
+        return ListService.edit(id, data)
+            .then(data => {
+                dispatch(editSuccess(data));
             }).catch(err => {
                 const msg = remoteKinvey.handleError(err);
                 dispatch(remoteError(msg))
@@ -46,4 +69,4 @@ function fetchAll() {
     };
 }
 
-export { createList, fetchAll };
+export { createList, fetchAll, editList };

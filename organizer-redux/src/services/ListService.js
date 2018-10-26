@@ -7,7 +7,15 @@ class ListService {
         return remoteKinvey.post('appdata', COLLECTION_NAME, 'kinvey', data);
     }
 
+    static edit(id, data) {
+        return remoteKinvey.update('appdata', COLLECTION_NAME + `/${id}`, 'kinvey', data);
+    }
+
     static getAll() {
+        return remoteKinvey.get('appdata', COLLECTION_NAME, 'kinvey');
+    }
+
+    static getById(id) {
         return remoteKinvey.get('appdata', COLLECTION_NAME, 'kinvey');
     }
 }

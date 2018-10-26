@@ -63,6 +63,7 @@ class LoginPage extends Component {
     }
 
     render() {
+        console.log('Login Page render');
         return(
             <div  className='row'>
             <div className='col-md-4 offset-md-4'>

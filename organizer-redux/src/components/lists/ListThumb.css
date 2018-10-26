@@ -5,4 +5,9 @@
     padding: 10px;
     margin-right: 20px;
     margin-bottom: 14px;
+    font-size: .9em;
+}
+
+.list-thumb > h2 {
+    font-size: 1.2em;
 }

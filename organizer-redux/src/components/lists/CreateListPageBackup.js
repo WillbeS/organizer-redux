@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import toastr from 'toastr';
 import actionTypes from '../../constants/actionTypes';
 
-class CreatePage extends Component {
+class CreateListPageBackup extends Component {
     constructor(props) {
         super(props);
 
@@ -91,4 +91,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateListPageBackup);

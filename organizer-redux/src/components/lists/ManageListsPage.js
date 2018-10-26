@@ -1,29 +1,111 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { fetchAll } from '../../actions/listActions';
 import { connect } from 'react-redux';
-import ListThumb from './ListThumb';
+import actionTypes from '../../constants/actionTypes';
+import ShowAllLists from './ShowAllLists';
+import CreateListPage from './CreateListPage';
+import { createList, editList } from '../../actions/listActions';
+import toastr from 'toastr';
+import EditListPage from './EditListPage';
+
+const MODE_CREATE = 'MODE_CREATE';
+const MODE_READ = 'MODE_READ';
+const MODE_UPDATE = 'MODE_UPDATE';
 
 class ManageListsPage extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            mode: MODE_READ,
+            list: {
+                name: ''
+            },
+            error: ''
+        }
+
+        this.onShowCreateHandler = this.onShowCreateHandler.bind(this);
+        this.onChangeInputHandler = this.onChangeInputHandler.bind(this);
+        this.onShowUpdateHandler = this.onShowUpdateHandler.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.remote === actionTypes.FETCH_LISTS_SUCCESS) {
+            return;
+        }
+
         this.props.fetchAll();
+
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.error) {
+            toastr.error(newProps.error);
+            return;
+        }
+
+        if (newProps.remote === actionTypes.LIST_CREATED) {
+            toastr.success('New list added successfully!');
+            this.setState({ mode: MODE_READ });
+        }
+
+        if (newProps.remote === actionTypes.LIST_UPDATED) {
+            toastr.success('The list was successfully updated!');
+            this.setState({ mode: MODE_READ });
+        }
+    }
+
+    onChangeInputHandler(e) {
+        this.setState({ list: { [e.target.name]: e.target.value } });
+        //this.setState({ [e.target.name]: e.target.value });
+    }
+
+    onShowCreateHandler(event) {
+        this.setState({ mode: MODE_CREATE });
+    }
+
+    onShowUpdateHandler(e, list) {
+        this.setState({ mode: MODE_UPDATE, list: {name: list.name}, id: list._id });
     }
 
     render() {
-        let listData = this.props.data.map( list => (
-            <ListThumb key={list._id} list={list} />
-        ));
-
-
+        //console.log('ManageListsPage Render');
         return (
             <div>
                 <h1>Manage Lists</h1>
-                <Link to='list/add'>Add List</Link>
-                <div>
-                    {listData}
-                </div>
-                
-                
+
+
+                {this.state.mode === MODE_READ &&
+                    <div>
+                        <button
+                            onClick={this.onShowCreateHandler}>
+                            Add List
+                        </button>
+                        <hr />
+                        <ShowAllLists data={this.props.data} editHandler={this.onShowUpdateHandler} />
+                    </div>
+                }
+
+                {this.state.mode !== MODE_READ &&
+                    <button
+                        onClick={() => (this.setState({mode: MODE_READ}))}>
+                        Back to All Lists
+                    </button>
+                }
+
+                {this.state.mode === MODE_CREATE &&
+                    <CreateListPage
+                        createList={this.props.createList}
+                        list={this.state.list}
+                        onChange={this.onChangeInputHandler} />
+                }
+                {this.state.mode === MODE_UPDATE &&
+                    <EditListPage
+                        editList={this.props.editList}
+                        list={this.state.list}
+                        id={this.state.id}
+                        onChange={this.onChangeInputHandler}
+                    />}
             </div>
         );
     }
@@ -33,13 +115,15 @@ function mapStateToProps(state) {
     return {
         data: state.list.data,
         remote: state.list.remote,
-        error: state.list.error
+        error: state.list.error,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchAll: () => dispatch(fetchAll())
+        fetchAll: () => dispatch(fetchAll()),
+        createList: (data) => dispatch(createList(data)),
+        editList: (id, data) => dispatch(editList(id, data))
     };
 }
 

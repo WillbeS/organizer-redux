@@ -1,15 +1,33 @@
 import actionTypes from '../constants/actionTypes';
 
-export function listReducer(state = {data: [], remote: null, error: null}, action) {
+export function listReducer(state = {data: {}, remote: null, error: null}, action) {
+    let newState = null;
     switch (action.type) {
+        case actionTypes.LOGOUT_SUCCESS:
+            return {data: {}, remote: null, error: null};
         case actionTypes.LIST_CREATED:
-            return Object.assign({}, state, { remote: actionTypes.LIST_CREATED, error: null });
+            newState = Object.assign({}, state, { remote: actionTypes.LIST_CREATED, error: null });
+            newState.data[action.data._id] =  action.data;
+            return newState;
+        case actionTypes.LIST_UPDATED:
+            newState = Object.assign({}, state, { remote: actionTypes.LIST_UPDATED, error: null });
+            newState.data[action.data._id] =  action.data;
+            return newState;
         case actionTypes.FETCH_LISTS_SUCCESS:
-            return Object.assign({}, state, { data: action.data, remote: actionTypes.FETCH_LISTS_SUCCESS, error: null });
+            return Object.assign({}, state, { data: storeData(action.data), remote: actionTypes.FETCH_LISTS_SUCCESS, error: null });
         case actionTypes.REMOTE_ERROR:
         //TODO - decide the best place to handle remote errors
             return Object.assign({}, state, { error: action.message });
         default:
             return state;
     }
+}
+
+function storeData(data) {
+    let store = {};
+    data.forEach(element => {
+        store[element._id] = element;
+    });
+
+    return store;
 }
