@@ -16,6 +16,13 @@ function editSuccess(data) {
     }
 }
 
+function deleteSuccess(id) {
+    return {
+        type: actionTypes.LIST_DELETED,
+        id
+    }
+}
+
 function fetchSuccess(data) {
     return {
         type: actionTypes.FETCH_LISTS_SUCCESS,
@@ -44,12 +51,22 @@ function createList(data) {
 
 
 function editList(id, data) {
-    console.log('From within list actions - data: ');
-    console.log(data);
     return (dispatch) => {
         return ListService.edit(id, data)
             .then(data => {
                 dispatch(editSuccess(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+function deleteList(id) {
+    return (dispatch) => {
+        return ListService.delete(id)
+            .then(() => {
+                dispatch(deleteSuccess(id));
             }).catch(err => {
                 const msg = remoteKinvey.handleError(err);
                 dispatch(remoteError(msg))
@@ -69,4 +86,4 @@ function fetchAll() {
     };
 }
 
-export { createList, fetchAll, editList };
+export { createList, fetchAll, editList, deleteList };

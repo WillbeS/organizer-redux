@@ -11,6 +11,10 @@ class ListService {
         return remoteKinvey.update('appdata', COLLECTION_NAME + `/${id}`, 'kinvey', data);
     }
 
+    static delete(id) {
+        return remoteKinvey.remove('appdata', COLLECTION_NAME + `/${id}`, 'kinvey');
+    }
+
     static getAll() {
         return remoteKinvey.get('appdata', COLLECTION_NAME, 'kinvey');
     }

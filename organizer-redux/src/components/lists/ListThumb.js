@@ -12,9 +12,7 @@ const ListThumb = (props) => (
             <span>Completed:</span> 1<br />
         </p>
         <button onClick={(event) => (props.editHandler(event, props.list))}>[Edit]</button> 
-        <button onClick={props.deleteHandler}>[Delete]</button>
-        {/* [<Link to={'/list/edit/' + props.list._id}>Edit</Link>] 
-        [<Link to={'/list/delete/' + props.list._id}>Delete</Link>] */}
+        <button onClick={(event) => (props.deleteHandler(event, props.list._id))}>[Delete]</button>
     </div>
 );
 
