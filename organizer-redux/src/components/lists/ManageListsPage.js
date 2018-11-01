@@ -2,23 +2,19 @@ import React, { Component } from 'react';
 import { fetchAll } from '../../actions/listActions';
 import { connect } from 'react-redux';
 import actionTypes from '../../constants/actionTypes';
+import {crud} from '../../constants/app';
 import ShowAllLists from './ShowAllLists';
 import CreateListPage from './CreateListPage';
 import { createList, editList, deleteList } from '../../actions/listActions';
 import toastr from 'toastr';
 import EditListPage from './EditListPage';
 
-const MODE_CREATE = 'MODE_CREATE';
-const MODE_READ = 'MODE_READ';
-const MODE_UPDATE = 'MODE_UPDATE';
-const MODE_DELETE = 'MODE_DELETE';
-
 class ManageListsPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            mode: MODE_READ,
+            mode: crud.MODE_READ,
             list: {
                 name: ''
             },
@@ -48,17 +44,17 @@ class ManageListsPage extends Component {
 
         if (newProps.remote === actionTypes.LIST_CREATED) {
             toastr.success('New list added successfully!');
-            this.setState({ mode: MODE_READ });
+            this.setState({ mode: crud.MODE_READ });
         }
 
         if (newProps.remote === actionTypes.LIST_UPDATED) {
             toastr.success('The list was successfully updated!');
-            this.setState({ mode: MODE_READ });
+            this.setState({ mode: crud.MODE_READ });
         }
 
         if (newProps.remote === actionTypes.LIST_DELETED) {
             toastr.success('The list was successfully deleted!');
-            this.setState({ mode: MODE_READ });
+            this.setState({ mode: crud.MODE_READ });
         }
     }
 
@@ -67,15 +63,15 @@ class ManageListsPage extends Component {
     }
 
     onShowCreateHandler(event) {
-        this.setState({ mode: MODE_CREATE });
+        this.setState({ mode: crud.MODE_CREATE });
     }
 
     onShowUpdateHandler(e, list) {
-        this.setState({ mode: MODE_UPDATE, list: {name: list.name}, id: list._id });
+        this.setState({ mode: crud.MODE_UPDATE, list: {name: list.name}, id: list._id });
     }
 
     onDeleteHandler(e, id) {
-        this.setState({ mode: MODE_DELETE });
+        this.setState({ mode: crud.MODE_DELETE });
         this.props.deleteList(id);
     }
 
@@ -84,7 +80,7 @@ class ManageListsPage extends Component {
             <div>
                 <h1>Manage Lists</h1>
 
-                {this.state.mode === MODE_READ &&
+                {this.state.mode === crud.MODE_READ &&
                     <div>
                         <button
                             onClick={this.onShowCreateHandler}>
@@ -98,20 +94,20 @@ class ManageListsPage extends Component {
                     </div>
                 }
 
-                {this.state.mode !== MODE_READ &&
+                {this.state.mode !== crud.MODE_READ &&
                     <button
-                        onClick={() => (this.setState({mode: MODE_READ}))}>
+                        onClick={() => (this.setState({mode: crud.MODE_READ}))}>
                         Back to All Lists
                     </button>
                 }
 
-                {this.state.mode === MODE_CREATE &&
+                {this.state.mode === crud.MODE_CREATE &&
                     <CreateListPage
                         createList={this.props.createList}
                         list={this.state.list}
                         onChange={this.onChangeInputHandler} />
                 }
-                {this.state.mode === MODE_UPDATE &&
+                {this.state.mode === crud.MODE_UPDATE &&
                     <EditListPage
                         editList={this.props.editList}
                         list={this.state.list}

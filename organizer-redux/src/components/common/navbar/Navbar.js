@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Menu from './Menu';
-import NavLinks from '../../../constants/NavLinks';
+import { NavLinks } from '../../../constants/app';
 
 class Navbar extends Component {
     render() {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
-import HomePage from '../../HomePage';
+//import HomePage from '../../HomePage';
 import AboutPage from '../../AboutPage';
 import LoginPage from '../../users/LoginPage';
 import LogoutPage from '../../users/LogoutPage';
@@ -11,10 +11,11 @@ import RegisterPage from '../../users/RegisterPage';
 import ManageListsPage from '../../lists/ManageListsPage';
 import CreateListPage from '../../lists/CreateListPage';
 import EditListPage from '../../lists/EditListPage';
+import ManageTodosPage from '../../todos/ManageTodosPage';
 
 const Routes = (props) => (
     <Switch>
-        <PrivateRoute path='/' exact component={HomePage} />
+        <PrivateRoute path='/' exact component={ManageTodosPage} />
         <Route path='/about' component={AboutPage} />
         <Route path='/users/login' component={LoginPage} />
         <Route path='/users/register' component={RegisterPage} />

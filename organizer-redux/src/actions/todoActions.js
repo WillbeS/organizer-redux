@@ -1,31 +1,31 @@
-import ListService from '../services/ListService';
+import TodoService from '../services/TodoService';
 import actionTypes from '../constants/actionTypes';
 import remoteKinvey from '../api/remoteKinvey';
 
 function createSuccess(data) {
     return {
-        type: actionTypes.LIST_CREATED,
+        type: actionTypes.TODO_CREATED,
         data
     };
 }
 
 function editSuccess(data) {
     return {
-        type: actionTypes.LIST_UPDATED,
+        type: actionTypes.TODO_UPDATED,
         data
     }
 }
 
 function deleteSuccess(id) {
     return {
-        type: actionTypes.LIST_DELETED,
+        type: actionTypes.TODO_DELETED,
         id
     }
 }
 
 function fetchSuccess(data) {
     return {
-        type: actionTypes.FETCH_LISTS_SUCCESS,
+        type: actionTypes.TODOS_FETCHED,
         data
     }
 }
@@ -37,9 +37,9 @@ function remoteError(msg) {
     }
 }
 
-function createList(data) {
+function createTodo(data) {
     return (dispatch) => {
-        return ListService.create(data)
+        return TodoService.create(data)
             .then(data => {
                 dispatch(createSuccess(data));
             }).catch(err => {
@@ -50,9 +50,9 @@ function createList(data) {
 }
 
 
-function editList(id, data) {
+function editTodo(id, data) {
     return (dispatch) => {
-        return ListService.edit(id, data)
+        return TodoService.edit(id, data)
             .then(data => {
                 dispatch(editSuccess(data));
             }).catch(err => {
@@ -62,9 +62,9 @@ function editList(id, data) {
     };
 }
 
-function deleteList(id) {
+function deleteTodo(id) {
     return (dispatch) => {
-        return ListService.delete(id)
+        return TodoService.delete(id)
             .then(() => {
                 dispatch(deleteSuccess(id));
             }).catch(err => {
@@ -75,9 +75,8 @@ function deleteList(id) {
 }
 
 function fetchAll() {
-    console.log('Fetching lists!!!')
     return (dispatch) => {
-        return ListService.getAll()
+        return TodoService.getAll()
             .then(data => {
                 dispatch(fetchSuccess(data));
             }).catch(err => {
@@ -87,4 +86,4 @@ function fetchAll() {
     };
 }
 
-export { createList, fetchAll, editList, deleteList };
+export { fetchAll, createTodo, editTodo, deleteTodo };
