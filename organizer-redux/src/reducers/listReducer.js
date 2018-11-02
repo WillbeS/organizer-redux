@@ -1,4 +1,5 @@
 import actionTypes from '../constants/actionTypes';
+import AppHelper from '../components/common/AppHelper';
 
 export function listReducer(state = { data: {}, remote: null, error: null, changes: 0 }, action) {
     let newState = null;
@@ -16,10 +17,10 @@ export function listReducer(state = { data: {}, remote: null, error: null, chang
             return newState;
         case actionTypes.LIST_DELETED:
             newState = Object.assign({}, state, { remote: actionTypes.LIST_DELETED, error: null });
-            deleteData(newState.data, action.id);
+            AppHelper.deleteFromData(newState.data, action.id);
             return newState;
         case actionTypes.FETCH_LISTS_SUCCESS:
-            return Object.assign({}, state, { data: storeData(action.data), remote: actionTypes.FETCH_LISTS_SUCCESS, error: null });
+            return Object.assign({}, state, { data: AppHelper.storeDataByKey(action.data, '_id'), remote: actionTypes.FETCH_LISTS_SUCCESS, error: null });
         case actionTypes.REMOTE_ERROR:
             //TODO - decide the best place to handle remote errors
             return Object.assign({}, state, { error: action.message });
@@ -28,24 +29,24 @@ export function listReducer(state = { data: {}, remote: null, error: null, chang
     }
 }
 
-function storeData(data) {
-    let store = {};
-    data.forEach(element => {
-        store[element._id] = element;
-    });
+// function storeData(data) {
+//     let store = {};
+//     data.forEach(element => {
+//         store[element._id] = element;
+//     });
 
-    return store;
-}
+//     return store;
+// }
 
 //Can be used on both objects and arrays
-function deleteData(data, key) {
-    if (!data.hasOwnProperty(key)) {
-        return;
-    }
+// function deleteData(data, key) {
+//     if (!data.hasOwnProperty(key)) {
+//         return;
+//     }
 
-    if (isNaN(parseInt(key)) || !(data instanceof Array)) {
-        delete data[key];
-    } else {
-        data.splice(key, 1);
-    }
-}
+//     if (isNaN(parseInt(key)) || !(data instanceof Array)) {
+//         delete data[key];
+//     } else {
+//         data.splice(key, 1);
+//     }
+// }

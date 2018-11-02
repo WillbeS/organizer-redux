@@ -5,7 +5,7 @@ class StatusBox extends Component {
         super(props);
 
         this.state = {
-            checked: false
+            checked: this.props.checked
         }
 
         this.toggleState = this.toggleState.bind(this);
@@ -18,7 +18,7 @@ class StatusBox extends Component {
         console.log('Status updated');
 
         if(this.props.onClick !== undefined) {
-            this.props.onClick(e);
+            this.props.onClick(this.props.selectedId);
         }
     }
     

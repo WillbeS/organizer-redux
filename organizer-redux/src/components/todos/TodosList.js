@@ -6,7 +6,12 @@ const TodosList = (props) => {
     let rows = Object.keys(data).map(key => {
         const todo = data[key];
         return <tr key={key}>
-            <td><StatusBox /></td>
+            <td>
+                <StatusBox
+                    checked={todo.done}
+                    selectedId={key}
+                    onClick={props.onUpdateStatus} />
+            </td>
             <td>{todo.name}</td>
             <td>{todo.progress} / {todo.target}</td>
             <td>

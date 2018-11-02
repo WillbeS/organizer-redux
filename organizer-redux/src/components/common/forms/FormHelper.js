@@ -2,7 +2,11 @@ class FormHelper {
     static handleInputChange(event, stateField) {
         const target = event.target;
         const field = target.name;
-        const value = target.value;
+        let value = target.value;
+
+        if(value !== '' && !isNaN(value)) {
+            value = Number(value);
+        }
 
         const state = this.state[stateField];
         state[field] = value;

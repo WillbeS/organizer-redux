@@ -8,13 +8,20 @@ import CreateTodo from './CreateTodo';
 import FormHelper from '../common/forms/FormHelper';
 import toastr from 'toastr';
 import TodoForm from './TodoForm';
+import AppHelper from '../common/AppHelper';
 
-
+/////////////////////////////////////////////
+/////// TODO NEXT TIME PRIORITY!!!!! ////////
+// add deadline property ////////////////////
+// on create set it to current date in format (2018-09-17)
+// on edit - if today is false, set it to next date (today + repeat)
+/////////////////////////////////////////////
 class ManageTodosPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = this.getDefaultState();
+        console.log(this.state.todo);
 
         this.onShowCreateHandler = this.onShowCreateHandler.bind(this);
         this.onChangeInputHandler = this.onChangeInputHandler.bind(this);
@@ -22,6 +29,7 @@ class ManageTodosPage extends Component {
         this.onShowUpdateHandler = this.onShowUpdateHandler.bind(this);
         this.onUpdateHandler = this.onUpdateHandler.bind(this);
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
+        this.onUpdateStatus = this.onUpdateStatus.bind(this);
     }
 
     componentDidMount() {
@@ -61,9 +69,7 @@ class ManageTodosPage extends Component {
     }
 
     onShowUpdateHandler(event, id) {
-        const {name, type, target, progress, done} = this.props.data[id];
-        const todo = {name, type, target, progress, done};
-        this.setState({ mode: crud.MODE_UPDATE, todo, selectedTodo: id });
+        this.setState({ mode: crud.MODE_UPDATE, todo: this.getTodoSelected(id), selectedTodo: id });
     }
 
     onUpdateHandler(event) {
@@ -72,7 +78,19 @@ class ManageTodosPage extends Component {
             return;
         }
 
-        this.props.editTodo(this.state.selectedTodo, this.state.todo);
+        let todo = this.state.todo;
+
+        if(!todo.startToday) {
+
+        }
+
+        this.props.editTodo(this.state.selectedTodo, todo);
+    }
+
+    onUpdateStatus(id) {
+        let todo = this.getTodoSelected(id);
+        todo.done = !todo.done;
+        this.props.editTodo(id, todo);
     }
 
     onDeleteHandler(event, id) {
@@ -108,11 +126,20 @@ class ManageTodosPage extends Component {
                 list_id: null,
                 target: 1,
                 progress: 0,
-                done: false
+                done: false,
+                Repeat: 0,
+                completed_count: 0,
+                noncompleted_count: 0,
+                deadline: AppHelper.getDeadline()
             },
             error: '',
             mode: crud.MODE_READ
         }
+    }
+
+    getTodoSelected(id) {
+        const {name, type, target, progress, done, Repeat, completed_count, noncompleted_count} = this.props.data[id];
+        return {name, type, target, progress, done, Repeat, completed_count, noncompleted_count};
     }
 
     render() {
@@ -130,7 +157,8 @@ class ManageTodosPage extends Component {
                             data={this.props.data}
                             onEditClick={this.onShowUpdateHandler}
                             onUpdate={this.onUpdateHandler}
-                            onDeleteClick={this.onDeleteHandler} />
+                            onDeleteClick={this.onDeleteHandler}
+                            onUpdateStatus={this.onUpdateStatus} />
                     </div>
                 }
 
@@ -153,6 +181,7 @@ class ManageTodosPage extends Component {
                     <div>
                         <h2>Edit Todo</h2>
                         <TodoForm
+                            allProps={true}
                             todo={this.state.todo}
                             onChange={this.onChangeInputHandler}
                             submitValue='Edit'

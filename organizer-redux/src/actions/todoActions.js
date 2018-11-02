@@ -75,6 +75,7 @@ function deleteTodo(id) {
 }
 
 function fetchAll() {
+    console.log('Fetching todos');
     return (dispatch) => {
         return TodoService.getAll()
             .then(data => {
