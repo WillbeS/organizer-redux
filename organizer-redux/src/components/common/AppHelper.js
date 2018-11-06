@@ -2,14 +2,22 @@
 // Temporary here but when grow too many will separate them by functionality/components //
 //////////////////////////////////////////////////////////////////////////////////////////
 class AppHelper {
-    //Generate date (to go in TodoHelper)
-    static getDeadline(today =  true) {
-        let d = new Date();
-        if(!today) {
-            // TODO - calculate date
-        }
+    //(to go in TodoHelper)
+    static changeDeadline(oldDeadline, repeat) {
+        let d = new Date(oldDeadline);
+        let newDeadline = new Date(d.setDate(d.getDate() + repeat));
 
-        return d.toISOString();
+        return newDeadline.toISOString();
+    }
+
+    //If deadline is before today, set it to today
+    static deadlineIsInPast(oldDeadline) {
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let d = new Date(oldDeadline);
+        d.setHours(0, 0, 0, 0);
+
+        return d < today;
     }
 
     // Delete element from object|array regardless (to go in StoreHelper)
@@ -17,7 +25,7 @@ class AppHelper {
         if (!data.hasOwnProperty(key)) {
             return;
         }
-    
+
         if (isNaN(parseInt(key)) || !(data instanceof Array)) {
             delete data[key];
         } else {
@@ -31,7 +39,7 @@ class AppHelper {
         data.forEach(element => {
             store[element[key]] = element;
         });
-    
+
         return store;
     }
 }

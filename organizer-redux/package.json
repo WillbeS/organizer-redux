@@ -4,7 +4,9 @@
   "private": true,
   "homepage": "https://pagafun.com/apps/todo",
   "dependencies": {
+    "moment": "^2.22.2",
     "react": "^16.5.2",
+    "react-datepicker": "^1.7.0",
     "react-dom": "^16.5.2",
     "react-redux": "5.0.6",
     "react-router": "4.2.0",

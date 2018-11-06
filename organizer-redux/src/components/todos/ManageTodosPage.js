@@ -9,19 +9,13 @@ import FormHelper from '../common/forms/FormHelper';
 import toastr from 'toastr';
 import TodoForm from './TodoForm';
 import AppHelper from '../common/AppHelper';
+import moment from 'moment';
 
-/////////////////////////////////////////////
-/////// TODO NEXT TIME PRIORITY!!!!! ////////
-// add deadline property ////////////////////
-// on create set it to current date in format (2018-09-17)
-// on edit - if today is false, set it to next date (today + repeat)
-/////////////////////////////////////////////
 class ManageTodosPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = this.getDefaultState();
-        console.log(this.state.todo);
 
         this.onShowCreateHandler = this.onShowCreateHandler.bind(this);
         this.onChangeInputHandler = this.onChangeInputHandler.bind(this);
@@ -44,6 +38,18 @@ class ManageTodosPage extends Component {
         if (newProps.error) {
             toastr.error(newProps.error);
             return;
+        }
+
+        if (newProps.remote === actionTypes.TODOS_FETCHED) {
+            //Do deadline check
+            for (const key in newProps.data) {
+                const todo = newProps.data[key];
+                if(AppHelper.deadlineIsInPast(todo.deadline)) {
+                    todo.deadline = moment().toISOString();
+                    todo.noncompleted_count++;
+                    this.props.editTodo(key, todo);
+                }
+            }
         }
 
         if (newProps.remote !== actionTypes.TODOS_FETCHED) {
@@ -79,16 +85,22 @@ class ManageTodosPage extends Component {
         }
 
         let todo = this.state.todo;
-
-        if(!todo.startToday) {
-
-        }
-
         this.props.editTodo(this.state.selectedTodo, todo);
     }
 
     onUpdateStatus(id) {
         let todo = this.getTodoSelected(id);
+
+        if(todo.done) {
+            // change it ot false (uncomplete)
+            todo.deadline = AppHelper.changeDeadline(todo.deadline, -(todo.Repeat));
+            todo.completed_count--;
+        } else {
+            //change it to true (complete)
+            todo.deadline = AppHelper.changeDeadline(todo.deadline, todo.Repeat);
+            todo.completed_count++;
+        }
+        
         todo.done = !todo.done;
         this.props.editTodo(id, todo);
     }
@@ -130,7 +142,7 @@ class ManageTodosPage extends Component {
                 Repeat: 0,
                 completed_count: 0,
                 noncompleted_count: 0,
-                deadline: AppHelper.getDeadline()
+                deadline: moment().toISOString()
             },
             error: '',
             mode: crud.MODE_READ
@@ -138,8 +150,10 @@ class ManageTodosPage extends Component {
     }
 
     getTodoSelected(id) {
-        const {name, type, target, progress, done, Repeat, completed_count, noncompleted_count} = this.props.data[id];
-        return {name, type, target, progress, done, Repeat, completed_count, noncompleted_count};
+        const {name, type, target,
+             progress, done, Repeat, 
+             completed_count, noncompleted_count, deadline} = this.props.data[id];
+        return {name, type, target, progress, done, Repeat, completed_count, noncompleted_count, deadline};
     }
 
     render() {

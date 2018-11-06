@@ -2,7 +2,9 @@ import React from 'react';
 import Input from '../common/forms/Input';
 import Submit from '../common/forms/Submit';
 import Select from '../common/forms/Select';
-import Checkbox from '../common/forms/Checkbox';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 
 const TodoForm = (props) => (
     <form>
@@ -38,12 +40,10 @@ const TodoForm = (props) => (
                     value={props.todo.Repeat}
                     onChange={props.onChange} />
                 <br />
-                <Checkbox 
-                    name='startToday'
-                    placeholder='Start today'
-                    value={props.todo.startToday}
-                    onChange={props.onChange} />
-                <br />
+                Start Date:
+                <DatePicker
+                    selected={moment(props.todo.deadline)} 
+                    onChange={(date => props.onChange({target: {name: 'deadline', value: date.toISOString() }}))} />
             </div>
 
         }
