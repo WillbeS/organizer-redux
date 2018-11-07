@@ -24,6 +24,7 @@ class ManageTodosPage extends Component {
         this.onUpdateHandler = this.onUpdateHandler.bind(this);
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onUpdateStatus = this.onUpdateStatus.bind(this);
+        this.onUpdateProgress = this.onUpdateProgress.bind(this);
     }
 
     componentDidMount() {
@@ -92,7 +93,7 @@ class ManageTodosPage extends Component {
         let todo = this.getTodoSelected(id);
 
         if(todo.done) {
-            // change it ot false (uncomplete)
+            // change it to false (uncomplete)
             todo.deadline = AppHelper.changeDeadline(todo.deadline, -(todo.Repeat));
             todo.completed_count--;
         } else {
@@ -102,6 +103,14 @@ class ManageTodosPage extends Component {
         }
         
         todo.done = !todo.done;
+        this.props.editTodo(id, todo);
+    }
+
+    onUpdateProgress(id, newProgress) {
+        let todo = this.props.data[id];
+        todo.progress += newProgress;
+
+        if(todo.progress < 0) todo.progress = 0;
         this.props.editTodo(id, todo);
     }
 
@@ -172,7 +181,8 @@ class ManageTodosPage extends Component {
                             onEditClick={this.onShowUpdateHandler}
                             onUpdate={this.onUpdateHandler}
                             onDeleteClick={this.onDeleteHandler}
-                            onUpdateStatus={this.onUpdateStatus} />
+                            onUpdateStatus={this.onUpdateStatus}
+                            onUpdateProgress={this.onUpdateProgress} />
                     </div>
                 }
 

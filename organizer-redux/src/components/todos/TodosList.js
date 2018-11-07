@@ -1,24 +1,16 @@
 import React from 'react';
-import StatusBox from './StatusBox';
+import TodoMain from './TodoMain';
 
 const TodosList = (props) => {
     const data = props.data;
     let rows = Object.keys(data).map(key => {
-        const todo = data[key];
-        return <tr key={key}>
-            <td>
-                <StatusBox
-                    checked={todo.done}
-                    selectedId={key}
-                    onClick={props.onUpdateStatus} />
-            </td>
-            <td>{todo.name}</td>
-            <td>{todo.progress} / {todo.target}</td>
-            <td>
-                <button onClick={(e) => (props.onEditClick(e, key))}>[Edit]</button> 
-                <button onClick={(e) => (props.onDeleteClick(e, key))}>[Delete]</button>
-            </td>
-        </tr>
+        return <TodoMain
+            key={key}
+            todo={data[key]}
+            onUpdateStatus={props.onUpdateStatus}
+            onUpdateProgress={props.onUpdateProgress}
+            onEditClick={props.onEditClick}
+            onDeleteClick={props.onDeleteClick} />
     });
 
     return (
@@ -26,7 +18,6 @@ const TodosList = (props) => {
             <h2>List All Tasks</h2>
             <div className='table-responsive'>
                 <table className="table table-hover">
-
                     <tbody>
                         {rows}
                     </tbody>

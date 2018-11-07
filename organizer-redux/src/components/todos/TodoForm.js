@@ -19,10 +19,10 @@ const TodoForm = (props) => (
             placeholder='Type'
             value={props.todo.type}
             options={([
-                'Single',
-                'Times',
-                'Minutes',
-                'Hours'])}
+                'single',
+                'times',
+                'minutes',
+                'amount'])}
             onChange={props.onChange} />
         <Input
             type='number'
