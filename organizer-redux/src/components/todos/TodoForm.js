@@ -19,9 +19,8 @@ const TodoForm = (props) => (
             placeholder='Type'
             value={props.todo.type}
             options={([
-                'single',
-                'times',
                 'minutes',
+                'times',
                 'amount'])}
             onChange={props.onChange} />
         <Input

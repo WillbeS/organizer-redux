@@ -20,7 +20,7 @@ class ListService {
     }
 
     static getById(id) {
-        return remoteKinvey.get('appdata', COLLECTION_NAME, 'kinvey');
+        return remoteKinvey.get('appdata', COLLECTION_NAME + `/${id}`, 'kinvey');
     }
 }
 

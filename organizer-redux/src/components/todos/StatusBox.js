@@ -18,7 +18,7 @@ class StatusBox extends Component {
         console.log('Status updated');
 
         if(this.props.onClick !== undefined) {
-            this.props.onClick(this.props.selectedId);
+            this.props.onClick(this.props.todo);
         }
     }
     

@@ -30,6 +30,13 @@ function fetchSuccess(data) {
     }
 }
 
+function fetchedOneSuccess(list) {
+    return {
+        type: actionTypes.LIST_BY_ID_FETCHED,
+        list
+    }
+}
+
 function remoteError(msg) {
     return {
         type: actionTypes.REMOTE_ERROR,
@@ -87,4 +94,16 @@ function fetchAll() {
     };
 }
 
-export { createList, fetchAll, editList, deleteList };
+function fetchOne(id) {
+    return (dispatch) => {
+        return ListService.getById(id)
+            .then(data => {
+                dispatch(fetchedOneSuccess(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+export { createList, fetchAll, fetchOne, editList, deleteList };

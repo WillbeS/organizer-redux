@@ -19,8 +19,24 @@ class TodoService {
         return remoteKinvey.get('appdata', COLLECTION_NAME, 'kinvey');
     }
 
+    static getDaily(date) {
+        ///appdata/your-app-id/your-collection?query={"your-date-property":{"$gt":"2010-04-29"}}
+        const query = `?query={"deadline":{"$lte":"${date}"}}`;
+        return remoteKinvey.get('appdata', COLLECTION_NAME + query, 'kinvey');
+    }
+
+    static getAllByList(listId) {
+        const query = `?query={"list_id":"${listId}"}`;
+        return remoteKinvey.get('appdata', COLLECTION_NAME + query, 'kinvey');
+    }
+
+    static getCompleted(date) {
+        const query = `?query={"complete_date":"${date}"}`;
+        return remoteKinvey.get('appdata', COLLECTION_NAME + query, 'kinvey');
+    }
+
     static getById(id) {
-        return remoteKinvey.get('appdata', COLLECTION_NAME, 'kinvey');
+        return remoteKinvey.get('appdata', COLLECTION_NAME + `/${id}`, 'kinvey');
     }
 }
 

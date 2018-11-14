@@ -4,13 +4,16 @@
 class AppHelper {
     //(to go in TodoHelper)
     static changeDeadline(oldDeadline, repeat) {
+        if(repeat === 0) {
+            return null;
+        }
+
         let d = new Date(oldDeadline);
         let newDeadline = new Date(d.setDate(d.getDate() + repeat));
 
         return newDeadline.toISOString();
     }
 
-    //If deadline is before today, set it to today
     static deadlineIsInPast(oldDeadline) {
         let today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -19,6 +22,13 @@ class AppHelper {
 
         return d < today;
     }
+
+    static getDateNoHoursISO(date) {
+        date.setHours(2, 0, 0, 0);
+        return date.toISOString();
+    }
+
+
 
     // Delete element from object|array regardless (to go in StoreHelper)
     static deleteFromData(data, key) {

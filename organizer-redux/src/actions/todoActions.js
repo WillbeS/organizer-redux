@@ -30,6 +30,27 @@ function fetchSuccess(data) {
     }
 }
 
+function fetchedNyListSuccess(data) {
+    return {
+        type: actionTypes.TODOS_BY_LIST_FETCHED,
+        data
+    }
+}
+
+function completedFetched(data) {
+    return {
+        type: actionTypes.COMPLETED_TODOS_FETCHED,
+        data
+    }
+}
+
+function fetchedOneSuccess(todo) {
+    return {
+        type: actionTypes.TODO_BY_ID_FETCHED,
+        todo
+    }
+}
+
 function remoteError(msg) {
     return {
         type: actionTypes.REMOTE_ERROR,
@@ -87,4 +108,54 @@ function fetchAll() {
     };
 }
 
-export { fetchAll, createTodo, editTodo, deleteTodo };
+function fetchAllByList(listId) {
+    return (dispatch) => {
+        return TodoService.getAllByList(listId)
+            .then(data => {
+                dispatch(fetchedNyListSuccess(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+function fetchDaily(date) {
+    console.log('Fetching daily todos');
+    return (dispatch) => {
+        return TodoService.getDaily(date)
+            .then(data => {
+                dispatch(fetchSuccess(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+function fetchCompleted(date) {
+    console.log('Fetching completed todos');
+    return (dispatch) => {
+        return TodoService.getCompleted(date)
+            .then(data => {
+                dispatch(completedFetched(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+function fetchOne(id) {
+    return (dispatch) => {
+        return TodoService.getById(id)
+            .then(data => {
+                dispatch(fetchedOneSuccess(data));
+            }).catch(err => {
+                const msg = remoteKinvey.handleError(err);
+                dispatch(remoteError(msg))
+            });
+    };
+}
+
+export { fetchAll, fetchDaily, fetchCompleted, fetchAllByList, fetchOne, createTodo, editTodo, deleteTodo };
