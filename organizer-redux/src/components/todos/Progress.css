@@ -1,0 +1,25 @@
+#progress input {
+    width: 65px;
+    height: 50px;;
+    text-align: center;
+}
+
+#progress .input-control {
+    width: 65px;
+    height: 50px;
+}
+
+#progress .submit {
+    margin-left: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 50px;
+}
+
+
+
+#progress span {
+    display: block;
+    font-size: .75em;
+    padding-left: 50px;
+}

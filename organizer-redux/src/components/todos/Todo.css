@@ -1,0 +1,21 @@
+table {
+    font-size: 1.15em;
+}
+
+table.mobile-inside {
+    width: 100%;
+}
+
+table.mobile-inside td {
+    /* border: 1px solid #777777; */
+    border: none;
+    padding-right: 0;
+}
+
+table.mobile-inside td.first {
+    width: 86%;
+}
+
+.btn-collapse {
+
+}

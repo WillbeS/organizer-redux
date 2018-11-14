@@ -1,0 +1,13 @@
+Optimization ideas:
+
+Currently there's a lot of lag, here're ideas to avoid it when possible
+
+- Daily todos:
+
+    - at start fetch all (active and completed)
+        - request will be all with deadline < today AND all with complete_date : today
+    - on fetch success will store them in 2 objects:
+        - data
+        - completed
+    - on status update will keep current logic but won't fetch them (separate action type from update)
+        - and will move them from one object to the other
