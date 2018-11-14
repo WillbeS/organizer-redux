@@ -16,7 +16,7 @@ const TodoDaily = (props) => {
         <tr>
             <td className='align-middle d-none d-lg-table-cell'>
                 <StatusBox
-                    checked={completed}
+                    checked={props.todo.done}
                     todo={props.todo}
                     onClick={props.onUpdateStatus} />
                 <span className='margin-left-10'>{props.todo.name}</span>
@@ -36,7 +36,7 @@ const TodoDaily = (props) => {
                         <tr>
                             <td className='align-middle first'>
                                 <StatusBox
-                                    checked={completed}
+                                    checked={props.todo.done}
                                     todo={props.todo}
                                     onClick={props.onUpdateStatus} />
                                 <span className='margin-left-10'>{props.todo.name}</span>

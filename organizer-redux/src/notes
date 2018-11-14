@@ -11,3 +11,20 @@ Currently there's a lot of lag, here're ideas to avoid it when possible
         - completed
     - on status update will keep current logic but won't fetch them (separate action type from update)
         - and will move them from one object to the other
+
+
+
+TODOs for the day:
+
+done - fix bug with deadline (on entering new day all todos marked as completed should be set to incompleted
+ done  - check box will keep the old logic with toggle done prop,
+ done  - on enter will check if date_completed is today and set it to null, an done to false if it's not
+
+done - Add total prop to each todo (on complete/uncomplete add the amount done to a total for later stats)
+
+
+- fetch daily todos and all lists on start (App.js)
+- Add select list on edit todo
+- Set default list on create todo (or load them all as other?)
+
+- Add timer

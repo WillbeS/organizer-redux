@@ -39,10 +39,21 @@ const TodoForm = (props) => (
                     value={props.todo.Repeat}
                     onChange={props.onChange} />
                 <br />
-                Start Date:
+                {/* <Select
+                    name='list_id'
+                    placeholder='Choose a list'
+                    value={props.todo.list_id}
+                    options={([
+                        '455', 'some list id 1',
+                        '465', 'some list id 2',
+                        '475', 'some list id 3'])}
+                    onChange={props.onChange} />
+                <br /> */}
+                Deadline:
                 <DatePicker
-                    selected={moment(props.todo.deadline)} 
-                    onChange={(date => props.onChange({target: {name: 'deadline', value: date.toISOString() }}))} />
+                    selected={moment(props.todo.deadline)}
+                    onChange={(date => props.onChange({ target: { name: 'deadline', value: date.toISOString() } }))} />
+                <br />
             </div>
 
         }

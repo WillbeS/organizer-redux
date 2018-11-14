@@ -14,10 +14,10 @@ class AppHelper {
         return newDeadline.toISOString();
     }
 
-    static deadlineIsInPast(oldDeadline) {
+    static dateIsInPast(date) {
         let today = new Date();
         today.setHours(0, 0, 0, 0);
-        let d = new Date(oldDeadline);
+        let d = new Date(date);
         d.setHours(0, 0, 0, 0);
 
         return d < today;

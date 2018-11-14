@@ -40,13 +40,23 @@ class DailyTodosPage extends Component {
         }
 
         if (newProps.remote === actionTypes.TODOS_FETCHED) {
+
+            //TODO - move this later in start of day set up
             //Do deadline check
             for (const key in newProps.data) {
                 const todo = newProps.data[key];
-                if (AppHelper.deadlineIsInPast(todo.deadline)) {
+                if (AppHelper.dateIsInPast(todo.deadline)) {
                     todo.deadline = AppHelper.getDateNoHoursISO(new Date());
                     todo.noncompleted_count++;
+                    todo.total += todo.progress;
                     this.props.editTodo(key, todo);
+                }
+
+                if(AppHelper.dateIsInPast(todo.complete_date) && todo.done) {
+                    todo.done = false;
+                    todo.complete_date = null;
+                    todo.progress = 0;
+                    this.props.editTodo(todo._id, todo);
                 }
             }
         }
@@ -63,19 +73,22 @@ class DailyTodosPage extends Component {
     }
 
     onUpdateStatus(todo) {
-        if (todo.complete_date) {
+        if (todo.done) {
             // change it to false (uncomplete)
             todo.deadline = AppHelper.getDateNoHoursISO(new Date());
             todo.completed_count--;
+            todo.total -= todo.progress;
             todo.complete_date = null;
         } else {
             console.log('Want to set it to complete');
             //change it to true (complete)
             todo.deadline = AppHelper.changeDeadline(todo.deadline, todo.Repeat);
             todo.completed_count++;
+            todo.total += todo.progress;
             todo.complete_date = AppHelper.getDateNoHoursISO(new Date());
         }
 
+        todo.done = !todo.done;
         this.props.editTodo(todo._id, todo);
     }
 
