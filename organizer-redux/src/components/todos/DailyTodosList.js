@@ -1,15 +1,21 @@
 import React from 'react';
-import DAilyTodo from './DailyTodo';
+import DailyTodo from './DailyTodo';
 
 const DailyTodosList = (props) => {
     const data = props.data;
     let rows = Object.keys(data).map(key => {
-        return <DAilyTodo
+        return <DailyTodo
             key={key}
             todo={data[key]}
             onUpdateStatus={props.onUpdateStatus}
             onUpdateProgress={props.onUpdateProgress}
-            onEditClick={props.onEditClick} />
+            onEditClick={props.onEditClick}
+            onTimerStart={props.onTimerStart}
+            onTimerPause={props.onTimerPause} 
+            onTimerReset={props.onTimerReset}
+            seconds={props.seconds} 
+            targetSeconds={props.targetSeconds} 
+            />
     });
 
     return (

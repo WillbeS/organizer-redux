@@ -22,9 +22,17 @@ done - fix bug with deadline (on entering new day all todos marked as completed 
 
 done - Add total prop to each todo (on complete/uncomplete add the amount done to a total for later stats)
 
+done - fetch all lists on start (App.js)
+done - Add select list on edit todo
 
-- fetch daily todos and all lists on start (App.js)
-- Add select list on edit todo
+done - Add timer
+
+- Refactor Manage Lists Page
+
 - Set default list on create todo (or load them all as other?)
 
-- Add timer
+- Separate todos by list
+
+- Delete list and all todos with it
+
+- Refactor

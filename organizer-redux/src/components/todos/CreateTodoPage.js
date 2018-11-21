@@ -18,10 +18,11 @@ class CreateTodoPage extends React.Component {
         this.state ={
             todo: {
                 name: '',
-                type: 'minutes',
+                type: 'single',
                 list_id: listId,
-                target: 30,
+                target: 0,
                 progress: 0,
+                total: 0,
                 done: false,
                 Repeat: 0,
                 completed_count: 0,

@@ -1,0 +1,53 @@
+.timer-btn {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#timer {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    min-height: 100%;
+    background-color: cornflowerblue;
+    padding: 10%;
+}
+
+#timer .timer-counter {
+    width: 100%;
+    min-height: 70%;
+    font-size: 5.5em;
+    background-color: beige;
+    padding: 3%;
+}
+
+
+
+@media all and (max-width: 992px) {
+    #timer .timer-counter {
+        font-size: 15vw;
+    }
+}
+
+/* @media all and (max-width: 380px) {
+    #timer .timer-counter {
+        font-size: 2.5em;
+    }
+}
+
+
+@media all and (max-width: 340px) {
+    #timer .timer-counter {
+        font-size: 2.2em;
+    }
+} */
+
+
+
+/*
+xs (mobile) < 768px
+sm (mobile) >= 768px
+md (desktop) >= 992px
+lg (desktop) >=  1200px
+
+ */

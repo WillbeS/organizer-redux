@@ -82,7 +82,7 @@ function deleteList(id) {
 }
 
 function fetchAll() {
-    console.log('Fetching lists!!!')
+    //console.log('Fetching lists!!!')
     return (dispatch) => {
         return ListService.getAll()
             .then(data => {

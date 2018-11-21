@@ -96,7 +96,7 @@ function deleteTodo(id) {
 }
 
 function fetchAll() {
-    console.log('Fetching todos');
+    //console.log('Fetching todos');
     return (dispatch) => {
         return TodoService.getAll()
             .then(data => {
@@ -121,7 +121,7 @@ function fetchAllByList(listId) {
 }
 
 function fetchDaily(date) {
-    console.log('Fetching daily todos');
+    //console.log('Fetching daily todos');
     return (dispatch) => {
         return TodoService.getDaily(date)
             .then(data => {
@@ -134,7 +134,7 @@ function fetchDaily(date) {
 }
 
 function fetchCompleted(date) {
-    console.log('Fetching completed todos');
+    //console.log('Fetching completed todos');
     return (dispatch) => {
         return TodoService.getCompleted(date)
             .then(data => {

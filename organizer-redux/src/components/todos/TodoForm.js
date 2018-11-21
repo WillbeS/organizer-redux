@@ -19,9 +19,11 @@ const TodoForm = (props) => (
             placeholder='Type'
             value={props.todo.type}
             options={([
-                'minutes',
-                'times',
-                'amount'])}
+                ['minutes', 'minutes'],
+                ['times', 'times'],
+                ['ml', 'ml'],
+                ['single', 'single']
+            ])}
             onChange={props.onChange} />
         <Input
             type='number'
@@ -39,16 +41,13 @@ const TodoForm = (props) => (
                     value={props.todo.Repeat}
                     onChange={props.onChange} />
                 <br />
-                {/* <Select
+                <Select
                     name='list_id'
                     placeholder='Choose a list'
-                    value={props.todo.list_id}
-                    options={([
-                        '455', 'some list id 1',
-                        '465', 'some list id 2',
-                        '475', 'some list id 3'])}
+                    value={props.todo.list_id ? props.todo.list_id : ''}
+                    options={props.lists}
                     onChange={props.onChange} />
-                <br /> */}
+                <br />
                 Deadline:
                 <DatePicker
                     selected={moment(props.todo.deadline)}

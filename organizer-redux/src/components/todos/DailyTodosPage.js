@@ -5,7 +5,6 @@ import { fetchDaily, fetchCompleted, editTodo, deleteTodo } from '../../actions/
 import actionTypes from '../../constants/actionTypes';
 import toastr from 'toastr';
 import AppHelper from '../common/AppHelper';
-//import TodoHelper from './TodoHelper';
 import { Link } from 'react-router-dom';
 import DailyTodosList from './DailyTodosList';
 import CompletedTodosList from './CompletedTodosList';
@@ -15,20 +14,35 @@ class DailyTodosPage extends Component {
         super(props);
 
         this.state = {
-            showCompleted: false
+            showCompleted: false,
+            timer: null,
+            seconds: 0,
+            targetSeconds: 1800,
+            autoStop: true,
         }
+
+        this.url = 'https://pagafun.com/apps/sounds/lotr.mp3';
+        this.audio = new Audio(this.url);
+        this.repeatSound = 20;
+        this.isPlaying = false;
 
         this.onUpdateStatus = this.onUpdateStatus.bind(this);
         this.onUpdateProgress = this.onUpdateProgress.bind(this);
         this.onShowCompleted = this.onShowCompleted.bind(this);
         this.onHideCompleted = this.onHideCompleted.bind(this);
+        this.tick = this.tick.bind(this);
+        this.onTimerStart = this.onTimerStart.bind(this);
+        this.onTimerReset = this.onTimerReset.bind(this);
+        this.onTimerPause = this.onTimerPause.bind(this);
     }
 
     componentDidMount() {
-        //May need this if decide to have separate action types for all fetches, right now it's useless
-        if (this.props.remote === actionTypes.TODOS_FETCHED) {
-            //return;
+        if (this.props.remote === actionTypes.TODOS_FETCHED ||
+            this.props.remote === actionTypes.COMPLETED_TODOS_FETCHED) {
+            return;
         }
+
+        console.log('Fetching daily todos');
 
         this.loadDailyTodos();
     }
@@ -49,6 +63,7 @@ class DailyTodosPage extends Component {
                     todo.deadline = AppHelper.getDateNoHoursISO(new Date());
                     todo.noncompleted_count++;
                     todo.total += todo.progress;
+                    todo.progress = 0;
                     this.props.editTodo(key, todo);
                 }
 
@@ -80,7 +95,6 @@ class DailyTodosPage extends Component {
             todo.total -= todo.progress;
             todo.complete_date = null;
         } else {
-            console.log('Want to set it to complete');
             //change it to true (complete)
             todo.deadline = AppHelper.changeDeadline(todo.deadline, todo.Repeat);
             todo.completed_count++;
@@ -93,6 +107,8 @@ class DailyTodosPage extends Component {
     }
 
     onUpdateProgress(id, newProgress) {
+        //console.log('Will update progress for id: ' + id);
+        //console.log('New progress: ' + newProgress)
         let todo = this.props.data[id];
         todo.progress += newProgress;
 
@@ -110,8 +126,45 @@ class DailyTodosPage extends Component {
         console.log('Need to hide completed');
     }
 
+    tick() {
+        this.setState((state) => ({
+            seconds: state.seconds + 1
+          }));
 
+        if(this.state.autoStop && this.state.seconds === this.state.targetSeconds) {
+            this.audio.play();
+            this.isPlaying = true;
+        }
+
+        if(this.state.autoStop && this.state.seconds === this.state.targetSeconds + this.repeatSound) {
+            this.onTimerPause();
+        }
+
+    }
+
+    onTimerStart() {
+        clearInterval(this.state.timer);
+        const timer = setInterval(this.tick, 1000);
+        this.setState({timer});
+    }
+
+    onTimerPause() {
+        if (this.isPlaying) {
+            this.audio.pause();
+            this.isPlaying = false;    
+        }
+
+        clearInterval(this.state.timer);
+        this.setState({ timer: null });
+    }
+
+    onTimerReset() {
+        clearInterval(this.state.timer);
+        this.setState({ timer: null, seconds: 0 });
+    }
+    
     render() {
+        //console.log('Daily Todos Page rendering');
         const completedBtnLabel = this.state.showCompleted ? 'Hide completed' : 'Show completed';
         const completedHandler = this.state.showCompleted ? this.onHideCompleted : this.onShowCompleted;
 
@@ -122,11 +175,14 @@ class DailyTodosPage extends Component {
                 <hr />
                 <DailyTodosList
                     data={this.props.data}
-                    onEditClick={this.onShowUpdateHandler}
                     onUpdate={this.onUpdateHandler}
-                    onDeleteClick={this.onDeleteHandler}
                     onUpdateStatus={this.onUpdateStatus}
-                    onUpdateProgress={this.onUpdateProgress} />
+                    onUpdateProgress={this.onUpdateProgress}
+                    onTimerStart={this.onTimerStart}
+                    onTimerPause={this.onTimerPause} 
+                    onTimerReset={this.onTimerReset} 
+                    seconds={this.state.seconds}
+                    targetSeconds={this.state.targetSeconds} />
                 <hr />
                 <button onClick={completedHandler} className='btn btn-info'>{completedBtnLabel}</button>
                 {this.state.showCompleted && this.props.completed &&

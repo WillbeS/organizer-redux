@@ -75,15 +75,26 @@ class EditTodoPage extends React.Component {
     }
 
     render() {
+        const listsLoaded = this.props.lists !== undefined;
+        let lists = [];
+        if(lists) {
+            for (let key in this.props.lists) {
+                const list = this.props.lists[key];
+                lists.push([key, list.name]);
+            }
+        }
+
+        console.log(lists);
         return (
             <div>
-                {!this.state.todo && <div>Loading...</div>}
-                {this.state.todo &&
+                {!this.state.todo && !listsLoaded && <div>Loading...</div>}
+                {this.state.todo && listsLoaded &&
                     <div>
                         <h1>Create Todo</h1>
                         <TodoForm
                             allProps={true}
                             todo={this.state.todo}
+                            lists={lists}
                             onChange={this.handleInputChange}
                             submitValue='Edit'
                             onSubmit={this.handleSubmit}
@@ -100,6 +111,7 @@ function mapStateToProps(state) {
     return {
         todo: state.todo.selected,
         data: state.todo.data,
+        lists: state.list.data,
         remote: state.todo.remote,
         error: state.todo.error,
     };

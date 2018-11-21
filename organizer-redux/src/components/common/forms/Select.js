@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Select = (props) => {
-    let options = <option value=''>No values</option>
+    let options = null;
     if (props.options) {
         options = props.options.map((op, index) => {
-            return <option key={index} value={op}>{op}</option>
+            return <option key={index} value={op[0]}>{op[1]}</option>
         });
     }
     
@@ -15,7 +15,10 @@ const Select = (props) => {
                 className='form-control'
                 name={props.name}
                 value={props.value}
-                onChange={props.onChange}>{options}</select>
+                onChange={props.onChange}>
+                    <option value="" disabled>Select your option</option>
+                    {options}
+                </select>
         </div>
     );
 }
